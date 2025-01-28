@@ -1,6 +1,6 @@
 module github.com/Merlicne/merl
 
-go 1.22.0
+go 1.23.4
 
 require (
 	github.com/spf13/viper v1.19.0
