@@ -11,7 +11,7 @@ var (
 func NewEnvReader(ConfigPath string) error {
 
 	viper.SetConfigFile(ConfigPath)
-
+	viper.AutomaticEnv()
 	err := viper.ReadInConfig()
 	if err != nil {
 		return err
