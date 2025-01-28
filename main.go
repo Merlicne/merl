@@ -1,20 +1,30 @@
 package main
 
 import (
+	"os"
+
 	"github.com/Merlicne/merl/env"
 	"github.com/Merlicne/merl/logger"
-	"os"
 )
 
 func main() {
-	os.Setenv("TZ", "UTC")
 	err := env.NewEnvReader(".env")
 	if err != nil {
 		panic(err)
 	}
+
+	if os.Getenv("TZ") == "" {
+		os.Setenv("TZ", env.GetStringValue("TZ"))
+	}
+
+
 	logPath := env.GetStringValue("LOGS.PATH")
 	println(logPath)
-	closeLog, err := logger.InitLogger(logPath)
+
+	logBuilder := logger.NewLogBuilder()
+	closeLog, err := logBuilder.AddFileEncoder(logPath)
+	logBuilder.AddConsoleEncoder()
+	logBuilder.Build()
 	if err != nil {
 		panic(err)
 	}
